@@ -1,0 +1,678 @@
+Project 6
+Get the Point?
+
+Time due: 9:00 PM Tuesday, May 27
+
+This project is designed to help you master pointers. 
+To that end, you'll get the most out of it by working through the problems by hand. 
+Only after that should you resort to running the programs 
+(and stepping through them with the debugger) to check your understanding. 
+Remember, on the final exam you'll have to be able to do problems like this by hand.
+
+// work through this homework/project by hand
+
+
+This "project" is more like a homework. There are five problems. 
+In problems that ask you to change code, make the few changes necessary to fix the code 
+without changing its overall approach. For example, don't fix the program in problem 1a 
+by changing it to
+
+//fix the code without changing the approach
+
+	int main()
+	{
+	    cout << " 30 20 10" << endl;
+	}
+
+
+The subparts to this problem involve errors in the use of pointers.
+
+
+
+
+
+This program is supposed to write  30 20 10, but it doesn't. Find all of the bugs 
+and show a fixed version of the program:
+
+    int main()
+    {
+        int arr[3] = { 5, 10, 15 };
+        int* ptr = arr;
+
+        *ptr = 10;          // set arr[0] to 10		
+        *ptr + 1 = 20;      // set arr[1] to 20
+        ptr += 2;
+        ptr[0] = 30;        // set arr[2] to 30
+
+        while (ptr >= arr)
+        {
+            ptr--;
+            cout << ' ' << *ptr;    // print values
+        }
+	cout << endl;
+    }
+
+
+
+
+int main()
+{
+	int arr[3] = { 5, 10, 15 };
+	int* ptr = arr;
+
+	*ptr = 10;          // set arr[0] to 10
+	ptr++;
+	*ptr = 20;      // set arr[1] to 20
+	ptr++;
+	ptr[0] = 30;        // set arr[2] to 30
+
+	while (ptr >= arr)
+	{
+		cout << ' ' << *ptr;    // print values
+		ptr--;
+	}
+	cout << endl;
+}
+
+
+
+
+
+
+
+
+
+The findDisorder function is supposed to find the first item in an array 
+that is less than the element preceding it, and set the p parameter to point 
+to that item, so the caller can know the location of that item. Explain why 
+this function won't do that, and show how to fix it. Your fix must be to the 
+function only; you must not change the the main routine below in any way, yet 
+as a result of your fixing the function, the main routine below must work 
+correctly.
+
+//findDisorder finds first element in array less than element less than it
+	// sets p to that item
+
+void findDisorder(int arr[], int n, int* p)
+    {
+        for (int k = 1; k < n; k++)
+        {
+            if (arr[k] < arr[k-1])
+            {
+                 p = arr + k;
+                 return;
+            }
+        }
+	p = nullptr;
+    }       
+        
+    int main()
+    {
+        int nums[6] = { 10, 20, 20, 40, 30, 50 };
+        int* ptr;
+
+        findDisorder(nums, 6, ptr);
+	if (ptr == nullptr)
+	    cout << "The array is ordered" << endl;
+	else
+	{
+            cout << "The disorder is at address " << ptr << endl;
+            cout << "It's at index " << ptr - nums << endl;
+            cout << "The item's value is " << *ptr << endl;
+	}
+    }
+
+
+int main()
+{
+	int nums[6] = { 10, 20, 20, 40, 30, 50 };
+	int* ptr;
+	ptr = nullptr;
+	for (int k = 1; k < 6; k++)
+	{
+		if (nums[k] < nums[k - 1])
+		{
+			ptr = nums + k;
+		}
+	}
+	if (ptr == nullptr)
+		cout << "The array is ordered" << endl;
+	else
+	{
+		cout << "The disorder is at address " << ptr << endl;
+		cout << "It's at index " << ptr - nums << endl;
+		cout << "The item's value is " << *ptr << endl;
+	}
+}
+
+
+
+
+
+
+  void findDisorder(int arr[], int n, int* &p)
+    {
+        for (int k = 1; k < n; k++)
+        {
+            if (arr[k] < arr[k-1])
+            {
+                 p = arr + k;
+                 return;
+            }
+        }
+	p = nullptr;
+    }       
+        
+    int main()
+    {
+        int nums[6] = { 10, 20, 20, 40, 30, 50 };
+        int* ptr;
+
+        findDisorder(nums, 6, ptr);
+	if (ptr == nullptr)
+	    cout << "The array is ordered" << endl;
+	else
+	{
+            cout << "The disorder is at address " << ptr << endl;
+            cout << "It's at index " << ptr - nums << endl;
+            cout << "The item's value is " << *ptr << endl;
+	}
+    }
+
+
+
+
+
+
+
+
+The hypotenuse function is correct, but the main function has a 
+problem. Explain why it may not work, and show a way to fix it. Your 
+fix must be to the main function only; you must not change the 
+hypotenuse function in any way.
+
+//main function is fucked
+	- why it doesnt work
+	- fix it (only fix main function!)
+
+
+    #include <iostream>
+    #include <cmath>
+    using namespace std;
+
+    void hypotenuse(double leg1, double leg2, double* resultPtr)
+    {
+        *resultPtr = sqrt(leg1*leg1 + leg2*leg2);
+    }
+
+    int main()
+    {
+        double* p;
+        hypotenuse(1.5, 2.0, p);
+        cout << "The hypotenuse is " << *p << endl;
+    }
+
+// p doesnt point to anything! point p to something to fix it
+
+ #include <iostream>
+    #include <cmath>
+    using namespace std;
+
+    void hypotenuse(double leg1, double leg2, double* resultPtr)
+    {
+        *resultPtr = sqrt(leg1*leg1 + leg2*leg2);
+    }
+
+    int main()
+    {
+	double hyp1;
+        double* p;
+	p = &hyp1;
+        hypotenuse(1.5, 2.0, p);
+        cout << "The hypotenuse is " << *p << endl;
+    }
+
+
+
+
+
+The match function is supposed to return true if and only if its two 
+C string arguments have exactly same text. Explain what the problems 
+with the implementation of the function are, and show a way to fix them.
+
+      // return true if two C strings are equal
+    bool match(const char str1[], const char str2[])
+    {
+        while (str1 != 0  &&  str2 != 0)  // zero bytes at ends
+        {
+            if (str1 != str2)  // compare corresponding characters
+                return false;
+            str1++;            // advance to the next character
+            str2++;
+        }
+        return str1 == str2;   // both ended at same time?
+    }
+
+    int main()
+    {
+        char a[10] = "Lien";
+        char b[10] = "Lin";
+
+        if (match(a,b))
+            cout << "They're the same guy!\n";
+    }
+
+
+///NOOB ANSWER
+the function tries to increment arrays and compare arrays directly
+instead, we should be comparing and incrementing pointers of arrays
+
+ // return true if two C strings are equal
+    bool match(const char str1[], const char str2[])
+    {
+	const char* pt1 = str1;
+	const char* pt2 = str2; 
+        while (*pt1 != 0  &&  *pt2 != 0)  // zero bytes at ends
+        {
+            if (*pt1 != *pt2)  // compare corresponding characters
+                return false;
+            pt1++;            // advance to the next character
+            pt2++;
+        }
+        return *pt1 == *pt2;   // both ended at same time?
+    }
+
+    int main()
+    {
+        char a[10] = "Lien";
+        char b[10] = "Lin";
+
+        if (match(a,b))
+            cout << "They're the same guy!\n";
+    }
+
+
+
+
+
+
+
+
+This program is supposed to write 1 4 9 16 25 36 49 64 81 100 , 
+but it probably does not. What is the program doing that is incorrect? 
+(We're not asking you explain why the incorrect action leads to the 
+particular outcome it does, and we're not asking you to propose a fix 
+to the problem.)
+
+    #include <iostream>
+    using namespace std;
+
+    int* computeSquares(int& n)		//will return 1, not the whole array
+    {
+        int arr[10];			//the whole that is desired is created
+        n = 10;
+        for (int k = 0; k < n; k++)
+            arr[k] = (k+1) * (k+1);
+        return arr;
+    }
+
+    void f()
+    {				// makes an int array called junk w/ 100 elements in it
+        int junk[100];		// goes through each element in the int
+        for (int k = 0; k < 100; k++) //array and gives it 12340000 + what
+            junk[k] = 123400000 + k;	//ever is the index of that element
+    }
+
+    int main()
+    {
+	int arr[10];
+        int m;
+        int* ptr = computeSquares(m);
+        f();
+        for (int i = 0; i < m; i++)
+            cout << ptr[i] << ' ';
+    }
+
+//NOOB ANSWER
+
+The main routine attempts to assign and integer pointer to the output 
+of computeSquares. The problem is that arr, the array that 
+computeSquares returns, is local to the computeSquares function. So 
+while the memory location still exists at every point during the code 
+execution, accessing it from outside that function produces undefined 
+behavior.
+
+
+
+
+
+
+
+
+
+
+For each of the following parts, write a single C++ statement that 
+performs the indicated task. For each part, assume that all previous 
+statements have been executed (e.g., when doing part e, assume the 
+statements you wrote for parts a through d have been executed).
+
+(a) Declare a pointer variable named fp that can point to a variable 
+of type string.
+
+(b) Declare fish to be a 5-element array of strings.
+
+(c) Make the fp variable point to the last element of fish.
+
+(d) Make the string pointed to by fp equal to "yellowtail", using the 
+* operator.
+
+(e) Without using the fp pointer, and without using square brackets, 
+set the fourth element (i.e., the one at index 3) of the fish array to 
+have the value "salmon".
+^^^^^^^^^^^^^^^^FCUK YOUUUUUUUUUUUUUUU
+
+(f) Move the fp pointer back by three strings.
+
+(g) Using square brackets, but without using the name fish, set the 
+third element (i.e., the one at index 2) of the fish array to have the 
+value "tuna".
+
+(h) Without using the * operator, but using square brackets, set the 
+string pointed to by fp to have the value "eel".
+
+(i) Using the == operator in the initialization expression, declare 
+a bool variable named d and initialize it with an expression that
+ evaluates to true if fp points to the string at the start of the fish 
+array, and to false otherwise.
+
+(j) Using the * operator in the initialization expression, but no 
+square brackets, declare a bool variable named b and initialize it to 
+true if the string pointed to by fp is equal to the string immediately 
+following the string pointed to by fp, and false otherwise.
+
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+	string* fp;
+	string fish[5];
+	fp = &fish[4];
+	*fp = "yellowtail";
+	*(fish + 3) = "salmon";
+	fp -= 3;
+	fp[1] = "tuna";
+	fp[0] = "eel";
+	bool d;
+	if (fp == &fish[0])
+		d = true;
+	else
+		d = false;
+	bool b;
+	if (*fp == *++fp)
+		b = true;
+	else
+		b = false;
+}
+
+i and j are incorrect
+
+bool d = fp == fish;	//i
+bool b = *fp == *(fp++)	//j
+
+
+
+
+
+
+
+
+
+Rewrite the following function so that it returns the same result, 
+but does not increment the variable ptr. Your new program must not 
+use any square brackets, but must use an integer variable to visit 
+each double in the array. You may eliminate any unneeded variable.
+
+	- same result
+	- does not increment ptr
+	- does not use square brackets
+	- uses an integer variable to visit each array element
+
+double computeAverage(const double* scores, int nScores)
+    {
+        const double* ptr = scores;
+        double tot = 0;
+        while (ptr != scores + nScores)
+        {
+            tot += *ptr;
+            ptr++;
+        }
+        return tot/nScores;
+    }
+
+
+
+
+
+THIS IS REALLY FUCKNG WEIRD, OKAY?
+====================================diagnosis of 3a==================================
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+double computeAverage(const double* scores, int nScores)
+{
+	const double* ptr = scores;
+	double tot = 0;
+	cout << scores << " " << nScores << " " << scores + nScores << endl;
+	while (ptr != scores + nScores)
+	{
+		cout << ptr << endl;
+		tot += *ptr;
+		ptr++;
+	}
+	return tot / nScores;
+}
+
+int main()
+{
+	int NumScores = 5;
+	double thescores[5] = { 10, 20, 30, 25, 10 }; 
+	double* pointer = thescores;
+	double average = computeAverage(pointer, 5);
+	cout << average << endl;
+}
+
+===============================================================================
+
+   double computeAverage(const double* scores, int nScores)
+    {
+        const double* ptr = scores;
+        double tot = 0;
+	int i = 0;
+        while (i < nScores)
+        {
+            tot += *(ptr + i);
+            i++;
+        }
+        return tot/nScores;
+    }
+
+
+Rewrite the following function so that it does not use any square brackets 
+(not even in the parameter declarations) but does use the integer variable
+ k. Do not use any of the <cstring> functions such as strlen, strcpy, etc.
+
+    // This function searches through str for the character chr.
+    // If the chr is found, it returns a pointer into str where
+    // the character was first found, otherwise nullptr (not found).
+
+
+//no square brackets
+// uses integer variable k
+// does not use cstring fcns
+
+    const char* findTheChar(const char str[], char chr)
+    {
+        for (int k = 0; str[k] != 0; k++)
+            if (str[k] == chr)
+                return &str[k];
+
+        return nullptr;
+    }
+
+
+
+
+
+
+const char* findTheChar(const char str[], char chr)
+{
+	const char* begin = str;
+	for (int k = 0; *(begin + k) != 0; k++)
+		if (*(begin+k) == chr)
+			return (start + k);
+	return nullptr;	
+}
+
+
+Now rewrite the function shown in part b so that it uses neither square 
+brackets nor any integer variables. Your new function must not use any 
+local variables other than the parameters.
+
+
+const char* findTheChar(const char* str, char chr)
+    {
+		while(*str != 0)
+		{
+                      if (*(str) == chr)
+                           return &*(str);
+		 	   str++;
+		}
+
+        return nullptr;
+    }
+
+
+
+
+
+
+
+
+
+What does the following program print and why? Be sure to explain why 
+each line of output prints the way it does to get full credit.
+
+    #include <iostream>
+
+    using namespace std;
+
+
+    int* minimart(int* a, int* b)	// creates FCN that RETURNS POINTER to an INT, after taking in TWO POINTERS TO INTS
+    {
+        if (*a < *b)			// return the smaller of the two pointers taken in
+            return a;
+        else
+            return b;
+    }
+
+    void swap1(int* a, int *b)		//creates a fcn that takes in two pointers: it eventually swaps the two pointers
+    {
+        int* temp = a;			//creates a temporary pointer to store one of them in order to overwrite the other
+        a = b;			////// sets a temp ptr = a ptr; sets a ptr = b ptr; sets b ptr = temp ptr (a's original ptr)
+        b = temp;		//SWAPS POINTER VALUES
+    }
+
+    void swap2(int* a, int *b)			
+    {
+        int temp = *a;		/// sets temp int equal = int a points to; sets int that a pts to equal to int b pts to
+        *a = *b;		// sets sets int that b points to = temp which is int that a pointed to.
+        *b = temp;		//SWAPS THE VALUES THAT THE POINTERS POINT TO
+    }
+
+    int main()
+    {
+        int array[6] = { 5, 3, 4, 17, 22, 19 };		// defines an integer array of 6 elements				{ 5, 3 , 4 , 17 , 22 , 19 }
+
+							//MINIMART takes in two pointers that point to an integer and returns the pointer location for the smaller integer
+							// defines a pointer to an integer and sets it equal to the fcn value -> enters element#0 and #2
+        int* ptr = minimart(array, &array[2]);			// this inputs 5 and 4 respectively; 4 is smaller so returns element#2
+									// thus, ptr now points to element#2 of the array;	ptr = &array[2]
+
+
+        ptr[1] = 9;					// sets element#3 of the array equal to 9 through the pointer; 		{ 5 , 3 , 4 , 9 , 22 , 19 }
+        ptr += 2;					// ptr now points to array[4]						ptr = &array[4]
+        *ptr = -1;					// array[4] = -1; 22 --> -1						{ 5 , 3 , 4 , 9 , -1 , 19 }						
+        *(array+1) = 79;				// sets array[1], which has 3 in it, to 79 				{ 5 , 79 , 4 , 9 , -1 , 19 }
+
+        cout << "diff=" << &array[5] - ptr << endl;	// the value of &array[5] - ptr is equivalent to position of array[3]
+								//outputs the difference between the address of the array's 5th and 4th elements
+
+        swap1(&array[0], &array[1]);			//SWAP1 swaps pointer positions: swaps local variables a and b, but nothing in main 
+        swap2(array, &array[2]);			//SWAP2 swaps the values at two ptr positions: swaps elements#0 and #2	{ 4 , 79 , 5 , 9 , -1 , 19 }
+
+        for (int i = 0; i < 6; i++)
+            cout << array[i] << endl;			//visits every element in the array and prints them out			{ 4 , 79 , 5 , 9 , -1 , 19 }
+    }
+
+
+in the end, the output will say:
+
+
+diff=1
+4
+79
+5
+9
+-1
+19
+
+
+
+
+
+
+
+
+
+
+Write a function named deleteG that accepts one character pointer as 
+a parameter and returns no value. The parameter is a C string. This 
+function must remove all of the upper and lower case 'g' letters 
+from the string. The resulting string must be a valid C string.
+
+Your function must declare no more than one local variable in 
+addition to the parameter; that additional variable must be of a 
+pointer type. Your function must not use any square brackets and must 
+not use the strlen or strcpy library functions.
+
+void deleteG(char s[]) 
+{
+    char* ptr = s;
+    while (*ptr != '\0') {
+        if (*ptr == 'g' || *ptr == 'G') {
+            while(*ptr != '\0') {
+                *ptr = *(ptr+1); 
+                ptr++;
+            }
+            ptr = s; 
+        }
+        ptr++;
+    }
+}
+
+
+
+    int main()
+    {
+        char msg[100] = "I recall the glass gate next to Gus in Lagos, near the gold bridge.";
+        deleteG(msg);
+        cout << msg;  // prints   I recall the lass ate next to us in Laos, near the old bride.
+    }
+

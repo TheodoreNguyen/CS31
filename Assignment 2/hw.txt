@@ -1,0 +1,110 @@
+Theodore Nguyen
+CS31 spring 2014
+704-156-701
+Homework 2
+
+
+(1) The program segment:
+	string grendel = "endl"; // assigns the value “endl” to the string grendel (not a cmd)
+	cout << "endl";		//outputs the phrase in quotations, “endl” onscreen (also not a cmd)
+	cout << grendel;	//outputs the value of grendel onscreen, which is "endl"
+	cout << endl;		//outputs endl, ending the line and starting a new line
+	cout << "grendel";	//outputs the phrase in quotations, "grendel" onscreen on the new line
+
+outputs:
+	
+	endlendl
+	grendel
+
+
+(2) The program given outputs #'s equivalent to the number inputted for len; if 10 was inputted for len, the first line of output would have
+9 spaces and a "#" at the end; the next line would have 8 spaces and a "#" at the end; the next line 7 spaces and a "#" at the end and so forth until
+there are no spaces and just a "#" at the bottommost line, creating a sort of diagonal formation of #'s.
+
+
+
+(3)WHILE STATEMENT CONVERSION INNER LOOP
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int len;
+
+	cout << "Enter a number: ";
+	cin >> len;
+
+	for (int i = 0; i < len; i++)
+	{
+		int j = i + 1;
+		while (j < len)
+		{
+			cout << " ";
+			j++;
+		}
+		cout << "#" << endl;
+	}
+}
+
+
+
+
+(4)DO-WHILE STATEMENT CONVERSION OUTER LOOP
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int len;
+
+	cout << "Enter a number: ";
+	cin >> len;
+
+	int i = 0;
+	do
+	{
+		if (len > 0)
+		{
+			int j = i + 1;
+			while (j < len)
+			{
+				cout << " ";
+				j++;
+			}
+			cout << "#" << endl;
+			i++;
+		}
+	} while (i < len);
+}
+
+
+
+
+(5)SWITCH STATEMENT
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int month;
+	cin >> month;
+
+	switch (month)
+	{
+	case 6:
+		cout << "northern solstice";
+		break;
+	case 12:
+		cout << "southern solstice";
+		break;
+	case 3:
+	case 9:
+		cout << "equinox";
+		break;
+	default:
+		cout << "nothing special";
+	}
+}
